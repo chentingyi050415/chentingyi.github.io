@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>陈亭伊｜运营 / 策划 / 增长</title>
+
+  <style>
+    :root{
+      --bg: #f5f5f7;
+      --card: rgba(255,255,255,0.85);
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --line: rgba(0,0,0,0.08);
+      --shadow: 0 10px 30px rgba(0,0,0,0.06);
+      --shadow-sm: 0 3px 10px rgba(0,0,0,0.04);
+      --radius-lg: 22px;
+      --radius: 16px;
+      --blue: #007aff;
+      --blue-soft: rgba(0,122,255,0.12);
+      --green: #34c759;
+      --orange: #ff9500;
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC",
+              "Helvetica Neue", "Noto Sans SC", Arial, sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root{
+        --bg:#0b0b0f;
+        --card: rgba(28,28,30,0.78);
+        --text:#f5f5f7;
+        --muted:#a1a1a6;
+        --line: rgba(255,255,255,0.10);
+        --shadow: 0 12px 34px rgba(0,0,0,0.45);
+        --shadow-sm: 0 4px 14px rgba(0,0,0,0.35);
+        --blue-soft: rgba(10,132,255,0.18);
+        --blue: #0a84ff;
+      }
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; font-family:var(--font); }
+    body{
+      background:
+        radial-gradient(900px 500px at 10% 0%, rgba(0,122,255,0.10), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(255,149,0,0.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.65;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    .wrap{
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 28px 16px 56px;
+    }
+
+    /* 顶部信息区 */
+    .hero{
+      position: relative;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-80px -80px auto auto;
+      width: 220px; height:220px;
+      background: radial-gradient(circle, rgba(0,122,255,0.22), transparent 60%);
+      filter: blur(2px);
+      transform: rotate(10deg);
+      pointer-events:none;
+    }
+
+    .hero-top{
+      display:flex;
+      gap: 14px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+
+    .name{
+      font-size: 30px;
+      font-weight: 760;
+      letter-spacing: 0.2px;
+    }
+    .subtitle{
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .chips{
+      display:flex;
+      gap: 8px;
+      flex-wrap:wrap;
+      margin-top: 14px;
+    }
+    .chip{
+      padding: 6px 10px;
+      font-size: 13px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      border: 1px solid rgba(0,122,255,0.18);
+      white-space:nowrap;
+    }
+
+    .contact{
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+      min-width: 260px;
+      margin-left:auto;
+    }
+    .contact-row{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      justify-content:flex-end;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.03);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-sm);
+      color: var(--text);
+    }
+    @media (prefers-color-scheme: dark){
+      .pill{ background: rgba(255,255,255,0.05); }
+    }
+
+    /* 主体两栏布局 */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    @media (max-width: 860px){
+      .grid{ grid-template-columns: 1fr; }
+      .contact{ width:100%; margin-left:0; }
+      .contact-row{ justify-content:flex-start; }
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 18px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+    .section-title::before{
+      content:"";
+      width: 10px; height: 10px;
+      border-radius: 3px;
+      background: var(--blue);
+      box-shadow: 0 0 0 3px var(--blue-soft);
+    }
+
+    .meta{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .meta .org{
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .meta .time{
+      color: var(--muted);
+      font-size: 13px;
+      white-space:nowrap;
+      padding-top: 2px;
+    }
+    .role{
+      color: var(--blue);
+      font-size: 14px;
+      margin: 2px 0 10px;
+      font-weight: 650;
+    }
+
+    ul.bullets{
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+      font-size: 14px;
+      color: rgba(29,29,31,0.88);
+    }
+    @media (prefers-color-scheme: dark){
+      ul.bullets{ color: rgba(245,245,247,0.88); }
+    }
+    ul.bullets li{
+      position:relative;
+      padding-left: 18px;
+    }
+    ul.bullets li::before{
+      content:"";
+      position:absolute;
+      left:0; top: 0.52em;
+      width: 6px; height:6px;
+      border-radius: 2px;
+      background: var(--blue);
+      transform: translateY(-50%);
+    }
+
+    .kpi{
+      font-weight: 750;
+      color: var(--blue);
+    }
+
+    .small{
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .projects{
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .project{
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,0.02);
+    }
+    @media (prefers-color-scheme: dark){
+      .project{ background: rgba(255,255,255,0.05); }
+    }
+    .project .title{
+      font-weight: 750;
+      font-size: 14.5px;
+    }
+    .project .sub{
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .project .desc{
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    .footer{
+      text-align:center;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 10px 0 0;
+    }
+
+    /* 小提示：打印更像简历 */
+    @media print{
+      body{ background:#fff; }
+      .hero,.card{ box-shadow:none; background:#fff; }
+      a{ text-decoration:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- 顶部信息 -->
+    <section class="hero">
+      <div class="hero-top">
+        <div>
+          <div class="name">陈亭伊</div>
+          <div class="subtitle">运营 / 策划 / 增长｜期望城市：北京｜工作经验：2年</div>
+
+          <div class="chips" aria-label="tags">
+            <span class="chip">运营</span>
+            <span class="chip">策划</span>
+            <span class="chip">增长</span>
+          </div>
+        </div>
+
+        <div class="contact">
+          <div class="contact-row">
+            <span class="pill">📞 <a href="tel:18723250436">18723250436</a></span>
+          </div>
+          <div class="contact-row">
+            <span class="pill">✉️ <a href="mailto:cty007376@gmail.com">cty007376@gmail.com</a></span>
+          </div>
+          <div class="contact-row">
+            <span class="pill">👤 女｜籍贯：重庆</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <!-- 左栏：经历 -->
+      <main class="card">
+        <div class="section-title">实习经历</div>
+
+        <section style="margin-bottom:14px;">
+          <div class="meta">
+            <div class="org">北京梧桐花开科技有限公司</div>
+            <div class="time">2025.09 — 2026.01</div>
+          </div>
+          <div class="role">新媒体运营及策划</div>
+          <ul class="bullets">
+            <li>流量策划：独立完成热榜制作全流程，优化热榜逻辑，提升内容精准度与流量分发效率</li>
+            <li>数据统计分析：完成近 <span class="kpi">30</span> 位财经博主全维度数据统计并输出分析报告；拆解 3 个领域抖音爆款逻辑，为增长选题提供参考</li>
+            <li>流程优化：参与完善支付宝电鳗平台分发 SOP，整理任务错误统计表，降低运营失误、提升效率</li>
+          </ul>
+        </section>
+
+        <section style="margin-bottom:14px;">
+          <div class="meta">
+            <div class="org">北京蒸汽记忆公司</div>
+            <div class="time">2025.06 — 2025.09</div>
+          </div>
+          <div class="role">产品运营</div>
+          <ul class="bullets">
+            <li>审核生态监控：牵头完成 <span class="kpi">12</span> 个第三方平台 OAuth 接入并建立 SOP；平均审核时长 6 天，一次通过率 <span class="kpi">85%</span></li>
+            <li>增长与产品优化：5 个月内实现 MAU <span class="kpi">+20%</span>、新增注册 <span class="kpi">+27%</span>、首日激活率 <span class="kpi">38%</span>、7 日留存 <span class="kpi">24%</span></li>
+            <li>GTM/对外：策划执行 6 场高校推介会（到场 <span class="kpi">1100+</span>、意向 <span class="kpi">420</span>、注册 <span class="kpi">230</span>）；对接海外开发者 <span class="kpi">100+</span> 场会议，促成 <span class="kpi">32</span> 家试用、<span class="kpi">10</span> 家 PoC、<span class="kpi">3</span> 家长期合作</li>
+            <li>招聘优化：将面试周期压缩至 <span class="kpi">7</span> 天，沉淀面试题库与候选人标签规则</li>
+          </ul>
+        </section>
+
+        <section style="margin-bottom:14px;">
+          <div class="meta">
+            <div class="org">奇迹创坛</div>
+            <div class="time">2025.01 — 2025.05</div>
+          </div>
+          <div class="role">人才调研</div>
+          <ul class="bullets">
+            <li>数据标注/清洗：收集结构化 <span class="kpi">20,000+</span> 条人才数据，去重并统一字段，系统化上传 100% 完成</li>
+            <li>建联人才：触达 <span class="kpi">500+</span> 高潜候选人，达成合作 <span class="kpi">50+</span>；沉淀「人才 mapping」SOP</li>
+            <li>数据质控：保障标注一致性 ≥ <span class="kpi">97%</span>、抽检错误率 ≤ <span class="kpi">3%</span></li>
+          </ul>
+        </section>
+
+        <section>
+          <div class="meta">
+            <div class="org">爱阅｜英语教培机构</div>
+            <div class="time">2024.09 — 2024.12</div>
+          </div>
+          <div class="role">英语教师</div>
+          <ul class="bullets">
+            <li>负责 6–16 岁学生英语课程教学，设计趣味课堂活动</li>
+            <li>策划「万圣节英语派对」，参与人数 <span class="kpi">200+</span>，家长满意度 <span class="kpi">100%</span></li>
+            <li>班级平均提分 <span class="kpi">25%</span>，续课率 <span class="kpi">90%</span></li>
+          </ul>
+        </section>
+      </main>
+
+      <!-- 右栏：教育/项目 -->
+      <aside class="card">
+        <div class="section-title">教育经历 & 证书</div>
+
+        <div style="margin-bottom:14px;">
+          <div class="meta">
+            <div class="org">中央民族大学（985A类双一流）</div>
+            <div class="time">2023 — 2027</div>
+          </div>
+          <div class="role" style="margin-bottom:6px;">本科｜网络与新媒体</div>
+          <div class="small">证书：CET-4、CRT-6、国家人才英语中级、普通话二甲</div>
+        </div>
+
+        <div class="section-title" style="margin-top:18px;">项目经历 & 获奖</div>
+        <div class="projects">
+          <div class="project">
+            <div class="title">中国移动创客比赛｜颜探网页开发</div>
+            <div class="sub">2024.10 — 2024.12｜网页开发</div>
+            <div class="desc">获奖：<span class="kpi">二等奖</span></div>
+          </div>
+
+          <div class="project">
+            <div class="title">NCDA 未来设计师大赛</div>
+            <div class="sub">2025.03 — 至今｜摄影 / 后期剪辑 / 脚本构思</div>
+            <div class="desc">获奖：北京市 <span class="kpi">三等奖</span></div>
+          </div>
+
+          <div class="project">
+            <div class="title">新媒体视域下少数民族非遗文化的创新传播与立法传承</div>
+            <div class="sub">2023.10 — 2024.05｜队长｜项目编号：QMRP2023110913</div>
+            <div class="desc">以回族民谣文化为例，从内容策划到制作、数据分析到运营推广，积累了完整闭环实践经验。</div>
+          </div>
+        </div>
+
+        <div class="footer">© 2026 陈亭伊｜运营 / 策划 / 增长｜北京</div>
+      </aside>
+    </div>
+
+  </div>
+</body>
+</html>
