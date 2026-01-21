@@ -6,333 +6,273 @@
   <title>陈亭伊｜运营 / 策划 / 增长</title>
 
   <style>
-    /* =========================================================
-      iOS 极简色系（严格限定）
-      背景 #f5f5f7
-      卡片 #ffffff
-      主文字 #1d1d1f
-      次要文字 #8e8e93
-      唯一强调色 #007aff
-    ========================================================= */
     :root{
-      --bg: #f5f5f7;
-      --card: #ffffff;
-      --text: #1d1d1f;
-      --muted: #8e8e93;
-      --blue: #007aff;
+      --bg: #0b0b10;
+      --card: rgba(255,255,255,0.06);
+      --card-strong: rgba(255,255,255,0.09);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.66);
+      --faint: rgba(255,255,255,0.42);
+      --line: rgba(255,255,255,0.10);
 
-      /* 统一缓动曲线 */
-      --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+      --blue: #4aa3ff;
+      --cyan: #6ef3ff;
+      --pink: #ff5bd6;
+      --gold: #ffd37a;
+      --green: #44f1a6;
 
-      /* 阴影（只用灰度与透明度） */
-      --shadow: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-hover: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow: 0 18px 60px rgba(0,0,0,0.55);
+      --shadow-sm: 0 10px 30px rgba(0,0,0,0.35);
 
-      /* 圆角 */
-      --r-lg: 22px;
-      --r: 16px;
+      --radius-lg: 24px;
+      --radius: 18px;
 
-      /* 内容宽度 */
-      --max: 920px;
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+              "PingFang SC","Helvetica Neue","Noto Sans SC", Arial, sans-serif;
+
+      --max: 980px;
     }
 
-    *{ box-sizing:border-box; margin:0; padding:0; }
+    /* Light mode fallback */
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg: #f6f7fb;
+        --card: rgba(255,255,255,0.78);
+        --card-strong: rgba(255,255,255,0.92);
+        --text: #111217;
+        --muted: #565a67;
+        --faint: #7a7f8f;
+        --line: rgba(0,0,0,0.08);
+        --shadow: 0 18px 60px rgba(0,0,0,0.10);
+        --shadow-sm: 0 10px 30px rgba(0,0,0,0.08);
+
+        --blue: #007aff;
+        --cyan: #00c7d6;
+        --pink: #ff2d95;
+        --gold: #ffb020;
+        --green: #34c759;
+      }
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; font-family:var(--font); }
+    html,body{ height:100%; }
     body{
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC",
-                   "Helvetica Neue","Noto Sans SC", Arial, sans-serif;
-      background: var(--bg);
       color: var(--text);
-      line-height: 1.65;
-
-      /* 全局加载动效：body opacity 0→1 (0.5s) */
-      opacity: 0;
-      animation: bodyFadeIn 0.5s var(--ease) forwards;
-    }
-    @keyframes bodyFadeIn{
-      to{ opacity: 1; }
+      background: var(--bg);
+      overflow-x:hidden;
+      line-height:1.7;
     }
 
-    a{ color: inherit; text-decoration: none; }
+    /* 背景动效：漂浮渐变光斑 + 微噪点 */
+    .bg{
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow:hidden;
+    }
+    .blob{
+      position:absolute;
+      width: 560px;
+      height: 560px;
+      border-radius: 50%;
+      filter: blur(48px);
+      opacity: 0.45;
+      transform: translate3d(0,0,0);
+      animation: float 14s ease-in-out infinite;
+    }
+    .b1{ background: radial-gradient(circle at 30% 30%, var(--blue), transparent 60%); left:-160px; top:-180px; }
+    .b2{ background: radial-gradient(circle at 30% 30%, var(--pink), transparent 60%); right:-220px; top:-120px; animation-duration: 18s; }
+    .b3{ background: radial-gradient(circle at 30% 30%, var(--cyan), transparent 60%); left:20%; bottom:-280px; animation-duration: 22s; opacity:0.35; }
+    @keyframes float{
+      0%,100%{ transform: translate3d(0,0,0) scale(1); }
+      50%{ transform: translate3d(0,22px,0) scale(1.06); }
+    }
+    .grain{
+      position:absolute; inset:0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+      opacity: .35;
+      z-index:-1;
+      pointer-events:none;
+    }
+
+    a{ color: inherit; text-decoration:none; }
     a:hover{ text-decoration: underline; }
 
     .wrap{
       max-width: var(--max);
       margin: 0 auto;
-      padding: 20px 16px 72px;
+      padding: 28px 16px 64px;
     }
 
-    /* =========================================================
-      顶部导航（滚动后背景由透明→rgba(255,255,255,0.9)）
-    ========================================================= */
-    .nav{
-      position: sticky;
-      top: 12px;
-      z-index: 20;
-      display:flex;
-      justify-content:center;
-      gap: 10px;
-      padding: 10px 10px;
-      margin-bottom: 12px;
-
-      border-radius: 999px;
-      background: rgba(255,255,255,0); /* 初始透明 */
-      box-shadow: none;
-
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-
-      transition: background 0.5s var(--ease), box-shadow 0.5s var(--ease);
-      will-change: background;
-    }
-    .nav.scrolled{
-      background: rgba(255,255,255,0.9);
-      box-shadow: var(--shadow);
-    }
-
-    .nav a{
-      font-size: 13px;
-      color: var(--muted);
-      padding: 8px 10px;
-      border-radius: 999px;
-      transition: background 0.35s var(--ease), color 0.35s var(--ease), transform 0.35s var(--ease);
-      will-change: transform, opacity;
-    }
-    .nav a:hover{
-      background: rgba(0,122,255,0.12); /* #007aff20-ish */
-      color: var(--blue);
-    }
-    .nav a.active{
-      background: rgba(0,122,255,0.18); /* #007aff30-ish */
-      color: var(--blue);
-    }
-    .nav a:active{
-      transform: scale(0.98); /* 按压回弹：scale 0.98→1 */
-    }
-
-    /* =========================================================
-      卡片通用样式 + hover（0.3s 过渡）
-      hover: translateY(-3px) + shadow 加深
-    ========================================================= */
-    .card{
-      background: var(--card);
-      border-radius: var(--r-lg);
-      box-shadow: var(--shadow);
-      padding: 22px 18px;
-      margin: 14px 0;
-
-      transform: translateY(14px) scale(0.95);
-      opacity: 0;
-
-      will-change: transform, opacity;
-    }
-
-    /* 懒加载入场：opacity 0→1 + scale 0.95→1（0.4s） */
-    .card.in{
-      animation: cardIn 0.4s var(--ease) forwards;
-    }
-    @keyframes cardIn{
-      to{ transform: translateY(0) scale(1); opacity: 1; }
-    }
-
-    /* 卡片 hover（桌面端） */
-    .card.hoverable{
-      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
-    }
-    .card.hoverable:hover{
-      transform: translateY(-3px) scale(1);
-      box-shadow: var(--shadow-hover);
-    }
-
-    /* =========================================================
-      个人信息卡片：先模糊 blur(8px)+translateY(-10px) → 清晰归位（0.8s）
-      + 悬浮呼吸 translateY 0→-2→0（5s）
-      + 背景渐变位移点缀（20s）
-    ========================================================= */
+    /* 顶部：姓名 + 快捷信息 */
     .hero{
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, var(--card-strong), var(--card));
+      box-shadow: var(--shadow);
+      border-radius: var(--radius-lg);
+      padding: 22px 22px 18px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       position: relative;
       overflow:hidden;
-    }
-    .hero::before{
-      /* 背景仅用 iOS 蓝透明度变化，不引入其他色 */
-      content:"";
-      position:absolute;
-      inset:-60px -60px -60px -60px;
-      background:
-        radial-gradient(600px 300px at 20% 10%, rgba(0,122,255,0.14), transparent 60%),
-        radial-gradient(600px 300px at 80% 30%, rgba(0,122,255,0.08), transparent 60%);
-      transform: translate3d(0,0,0);
-      animation: heroBgDrift 20s var(--ease) infinite alternate;
-      pointer-events:none;
-      will-change: transform, opacity;
-    }
-    @keyframes heroBgDrift{
-      0%{ transform: translate3d(-10px,-6px,0); opacity: .9; }
-      100%{ transform: translate3d(12px,8px,0); opacity: 1; }
-    }
-
-    /* 首屏专属加载：blur 8px + translateY(-10px) → 清晰归位 0.8s */
-    .hero.load{
-      filter: blur(8px);
-      transform: translateY(-10px);
+      transform: translateY(8px);
       opacity: 0;
-      animation: heroLoad 0.8s var(--ease) forwards;
-      will-change: transform, opacity, filter;
+      animation: enter 650ms cubic-bezier(.2,.8,.2,1) forwards;
     }
-    @keyframes heroLoad{
-      to{ filter: blur(0); transform: translateY(0); opacity: 1; }
+    .hero::after{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(900px 240px at 10% 0%, rgba(74,163,255,0.25), transparent 60%),
+                  radial-gradient(900px 240px at 90% 0%, rgba(255,91,214,0.18), transparent 60%);
+      pointer-events:none;
+      opacity: .55;
     }
-
-    /* 呼吸悬浮（极缓） */
-    .hero.breathe{
-      animation: heroBreathe 5s var(--ease) infinite;
-    }
-    @keyframes heroBreathe{
-      0%,100%{ transform: translateY(0); }
-      50%{ transform: translateY(-2px); }
+    @keyframes enter{
+      to{ transform: translateY(0); opacity:1; }
     }
 
     .heroTop{
+      display:flex;
+      gap: 16px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
       position: relative;
       z-index: 1;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap: 16px;
-      flex-wrap:wrap;
     }
-    .nameRow{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-      flex-wrap:wrap;
-    }
-    .name{
-      font-size: 30px;
-      font-weight: 700;
-      letter-spacing: .2px;
-      cursor: pointer;
-      user-select:none;
 
-      /* 点击彩蛋的动效准备 */
-      display:inline-block;
-      will-change: transform;
+    .name{
+      font-size: 34px;
+      font-weight: 820;
+      letter-spacing: 0.4px;
     }
     .headline{
-      margin-top: 8px;
+      margin-top: 6px;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 14.5px;
     }
+
     .chips{
-      margin-top: 14px;
       display:flex;
-      gap: 8px;
+      gap: 10px;
       flex-wrap:wrap;
+      margin-top: 14px;
     }
     .chip{
-      display:inline-flex;
-      align-items:center;
-      padding: 6px 10px;
       font-size: 13px;
+      padding: 7px 11px;
       border-radius: 999px;
-      color: var(--blue);
-      background: rgba(0,122,255,0.12); /* #007aff20-ish */
-      transition: background 0.35s var(--ease), transform 0.2s var(--ease);
-      will-change: transform;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      user-select:none;
     }
     .chip:hover{
-      background: rgba(0,122,255,0.18); /* #007aff30-ish */
-    }
-    .chip:active{
-      transform: scale(0.98); /* 按压回弹 */
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.18);
     }
 
     .contact{
-      min-width: 280px;
       display:flex;
       flex-direction:column;
       gap: 10px;
+      min-width: 320px;
       margin-left:auto;
     }
     .pill{
       display:flex;
-      justify-content:space-between;
       align-items:center;
+      justify-content:space-between;
       gap: 10px;
       padding: 10px 12px;
       border-radius: 14px;
-      background: rgba(245,245,247,0.6); /* 仍在 iOS 灰白体系里 */
-      box-shadow: var(--shadow);
-      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
-      will-change: transform;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.05);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: transform .18s ease, border-color .18s ease;
     }
-    .pill:hover{
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-hover);
-    }
-    .pill:active{
-      transform: scale(0.98);
-    }
-    .pill strong{ font-weight: 600; }
+    .pill:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,0.18); }
+    .pill strong{ font-weight: 720; }
     .pill span{ color: var(--muted); font-size: 13px; }
 
-    /* =========================================================
-      标题动效：
-      - 标题文字：translateX(20px)+opacity0 → 0+1（0.5s）
-      - 左侧装饰线：透明→蓝（0.6s）
-    ========================================================= */
+    .pill .cta{
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      color: var(--muted);
+    }
+
+    /* 内容区：严格按照你的简历顺序 */
+    .sections{
+      margin-top: 18px;
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+    }
+
+    .card{
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.05));
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+
+      transform: translateY(14px);
+      opacity: 0;
+    }
+    .card.reveal{
+      animation: reveal 700ms cubic-bezier(.2,.8,.2,1) forwards;
+    }
+    @keyframes reveal{
+      to{ transform: translateY(0); opacity: 1; }
+    }
+
     .sectionTitle{
       display:flex;
       align-items:center;
-      gap: 10px;
+      justify-content:space-between;
+      gap: 12px;
       margin-bottom: 12px;
-    }
-    .bar{
-      width: 3px;
-      height: 18px;
-      border-radius: 2px;
-      background: rgba(0,122,255,0); /* 初始透明 */
-      will-change: opacity;
     }
     .sectionTitle h2{
       font-size: 16px;
-      font-weight: 700;
-      opacity: 0;
-      transform: translateX(20px);
-      will-change: transform, opacity;
+      font-weight: 820;
+      letter-spacing: 0.2px;
     }
-    .card.in .bar{
-      animation: barIn 0.6s var(--ease) forwards;
-    }
-    @keyframes barIn{
-      to{ background: rgba(0,122,255,1); }
-    }
-    .card.in .sectionTitle h2{
-      animation: titleIn 0.5s var(--ease) forwards;
-    }
-    @keyframes titleIn{
-      to{ opacity: 1; transform: translateX(0); }
+    .sectionTitle .line{
+      height:1px;
+      flex: 1;
+      background: linear-gradient(90deg, rgba(255,255,255,0.16), transparent);
     }
 
-    /* =========================================================
-      条目（公司/学校/项目）结构
-    ========================================================= */
+    /* 条目：公司/学校 + 角色 + 时间（尽量对齐简历视觉） */
     .entry{
-      border-radius: var(--r);
-      padding: 14px 14px;
-      background: #ffffff;
-      box-shadow: var(--shadow);
-      margin-bottom: 12px;
-
-      /* 让条目也跟随卡片逐个出现（JS 加 class） */
-      opacity: 0;
-      transform: translateY(10px);
-      will-change: transform, opacity;
+      padding: 14px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.10);
+      margin-bottom: 10px;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
     }
-    .entry.in{
-      animation: entryIn 0.4s var(--ease) forwards;
+    @media (prefers-color-scheme: light){
+      .entry{ background: rgba(255,255,255,0.55); }
     }
-    @keyframes entryIn{
-      to{ opacity: 1; transform: translateY(0); }
+    .entry:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.07);
+    }
+    @media (prefers-color-scheme: light){
+      .entry:hover{ background: rgba(255,255,255,0.75); }
     }
 
     .row{
@@ -341,25 +281,27 @@
       gap: 12px;
       align-items:baseline;
     }
-    .left{
-      font-weight: 650;
-      font-size: 14.5px;
+    .row .left{
+      font-weight: 780;
+      font-size: 14.8px;
+      letter-spacing: 0.15px;
     }
-    .mid{
-      color: var(--blue);
+    .row .mid{
+      color: var(--muted);
       font-size: 14px;
       text-align:center;
-      font-weight: 600;
+      font-weight: 680;
     }
-    .right{
-      color: var(--muted);
+    .row .right{
+      color: var(--faint);
       font-size: 13px;
       text-align:right;
       white-space:nowrap;
     }
     @media (max-width: 760px){
       .row{ grid-template-columns: 1fr; }
-      .mid,.right{ text-align:left; }
+      .row .mid{ text-align:left; }
+      .row .right{ text-align:left; }
     }
 
     .subline{
@@ -368,12 +310,6 @@
       font-size: 13px;
     }
 
-    /* =========================================================
-      列表项动效：
-      - li 入场：逐行延迟 0.05s，opacity + translateX(10px)→0
-      - 圆点呼吸：scale 1→1.2→1（2s循环）
-      - li hover：文字变蓝（0.2s）+ 字间距 +0.5px（0.3-0.6s）
-    ========================================================= */
     ul.bullets{
       list-style:none;
       margin-top: 10px;
@@ -381,493 +317,311 @@
       flex-direction:column;
       gap: 8px;
       font-size: 14px;
+      color: var(--text);
     }
-    li.bullet{
-      position: relative;
+    ul.bullets li{
+      position:relative;
       padding-left: 18px;
-
-      opacity: 0;
-      transform: translateX(10px);
-      will-change: transform, opacity;
-      transition: color 0.2s var(--ease), letter-spacing 0.5s var(--ease);
+      color: rgba(255,255,255,0.86);
     }
-    li.bullet.in{
-      animation: liIn 0.4s var(--ease) forwards;
+    @media (prefers-color-scheme: light){
+      ul.bullets li{ color: rgba(17,18,23,0.86); }
     }
-    @keyframes liIn{
-      to{ opacity:1; transform: translateX(0); }
-    }
-
-    li.bullet::before{
+    ul.bullets li::before{
       content:"";
       position:absolute;
       left: 0;
       top: 0.62em;
       width: 7px;
       height: 7px;
-      border-radius: 50%;
-      background: rgba(0,122,255,1);
-      transform: translateY(-50%) scale(1);
-      animation: dotBreath 2s var(--ease) infinite;
-      will-change: transform, opacity;
-      opacity: 0.9;
-    }
-    @keyframes dotBreath{
-      0%,100%{ transform: translateY(-50%) scale(1); opacity: 0.85; }
-      50%{ transform: translateY(-50%) scale(1.2); opacity: 1; }
+      border-radius: 3px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      transform: translateY(-50%);
+      box-shadow: 0 0 0 3px rgba(74,163,255,0.14);
     }
 
-    li.bullet:hover{
-      color: var(--blue);
-      letter-spacing: 0.5px;
-    }
-
-    /* KPI 高亮（仅颜色变化） */
     .kpi{
-      color: var(--blue);
-      font-weight: 700;
-      display:inline-block;
-      will-change: transform;
+      font-weight: 860;
+      color: var(--cyan);
+    }
+    @media (prefers-color-scheme: light){
+      .kpi{ color: var(--blue); }
     }
 
-    /* KPI 脉冲：scale 1→1.05→1，循环 3 次（JS 加 class） */
-    .kpi.pulse{
-      animation: kpiPulse 0.33s var(--ease) 0s 3;
-    }
-    @keyframes kpiPulse{
-      0%,100%{ transform: scale(1); }
-      50%{ transform: scale(1.05); }
-    }
-
-    /* =========================================================
-      右下角返回顶部按钮：
-      - 超过300px 淡入
-      - 呼吸动效 scale 1→1.05→1（2s循环）
-    ========================================================= */
-    .toTop{
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 30;
-
-      width: 44px;
-      height: 44px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.9);
-      box-shadow: var(--shadow-hover);
-
+    /* 顶部小浮动导航（高级感+动效） */
+    .dock{
+      position: sticky;
+      top: 12px;
+      z-index: 10;
+      margin: 14px 0 0;
       display:flex;
-      align-items:center;
+      gap: 10px;
+      flex-wrap:wrap;
       justify-content:center;
-      color: var(--blue);
-      font-weight: 800;
-
-      opacity: 0;
-      pointer-events:none;
-      transform: translateY(8px);
-
-      transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
-      will-change: transform, opacity;
     }
-    .toTop.show{
-      opacity: 1;
-      pointer-events:auto;
-      transform: translateY(0);
-      animation: topBreath 2s var(--ease) infinite;
-    }
-    @keyframes topBreath{
-      0%,100%{ transform: translateY(0) scale(1); }
-      50%{ transform: translateY(0) scale(1.05); }
-    }
-    .toTop:active{ transform: translateY(0) scale(0.98); }
-
-    /* =========================================================
-      姓名彩蛋：旋转5°→0 + scale 1→1.08→1（0.3s）
-      + 蓝色波纹（一次性）
-    ========================================================= */
-    .name.pop{
-      animation: namePop 0.3s var(--ease) forwards;
-    }
-    @keyframes namePop{
-      0%{ transform: rotate(0deg) scale(1); }
-      40%{ transform: rotate(5deg) scale(1.08); }
-      100%{ transform: rotate(0deg) scale(1); }
-    }
-    .ripple{
-      position:absolute;
+    .dock a{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
       border-radius: 999px;
-      border: 2px solid rgba(0,122,255,0.35);
-      transform: translate(-50%,-50%) scale(0.6);
-      opacity: 0.0;
-      pointer-events:none;
-      will-change: transform, opacity;
-      animation: ripple 0.6s var(--ease) forwards;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: var(--shadow-sm);
+      font-size: 13px;
+      color: var(--muted);
+      transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
     }
-    @keyframes ripple{
-      0%{ opacity: 0.0; transform: translate(-50%,-50%) scale(0.6); }
-      20%{ opacity: 0.7; }
-      100%{ opacity: 0.0; transform: translate(-50%,-50%) scale(1.5); }
+    .dock a:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.10);
+      color: var(--text);
+      border-color: rgba(255,255,255,0.18);
+    }
+    .dock a.active{
+      color: var(--text);
+      border-color: rgba(110,243,255,0.35);
+      background: linear-gradient(180deg, rgba(110,243,255,0.14), rgba(255,255,255,0.06));
     }
 
-    /* =========================================================
-      移动端适配：<768px 弱化 hover（取消位移/阴影），时长缩短 10%
-    ========================================================= */
-    @media (max-width: 768px){
-      .card.hoverable:hover{ transform: translateY(0) scale(1); box-shadow: var(--shadow); }
-      .pill:hover{ transform: translateY(0); box-shadow: var(--shadow); }
+    .footer{
+      text-align:center;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 10px 0 0;
+      opacity: .9;
+    }
 
-      .nav, .nav a, .card.hoverable, .pill{
-        transition-duration: 0.27s; /* 0.3s * 0.9 */
-      }
+    /* 打印：更像简历 */
+    @media print{
+      .bg,.dock{ display:none !important; }
+      body{ background:#fff; color:#111; }
+      .hero,.card,.entry{ box-shadow:none; background:#fff; border: 1px solid #ddd; }
+      .chip,.pill{ border:1px solid #ddd; background:#fff; }
+      a{ text-decoration:none; }
     }
 
     /* 动画偏好：减少动效 */
     @media (prefers-reduced-motion: reduce){
-      *{ animation: none !important; transition: none !important; }
-      body{ opacity: 1; }
-      .card, .entry, li.bullet{ opacity: 1; transform:none; }
-      .toTop{ display:none; }
+      .blob{ animation:none; }
+      .hero{ animation:none; opacity:1; transform:none; }
+      .card{ opacity:1; transform:none; }
+      .card.reveal{ animation:none; }
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap" id="top">
+  <div class="bg" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="grain"></div>
+  </div>
 
-    <!-- 顶部导航 -->
-    <nav class="nav" id="nav">
-      <a href="#top" data-nav="top">顶部</a>
-      <a href="#edu" data-nav="edu">教育</a>
-      <a href="#intern" data-nav="intern">实习</a>
-      <a href="#proj" data-nav="proj">项目</a>
-    </nav>
+  <div class="wrap">
 
-    <!-- 个人信息（严格按你的文字版简历排版顺序） -->
-    <section class="card hero hoverable load breathe" id="hero">
+    <!-- 个人信息（严格按你简历的文字顺序） -->
+    <section class="hero" id="top">
       <div class="heroTop">
-        <div style="max-width: 520px;">
-          <div class="nameRow">
-            <div class="name" id="nameBtn">陈亭伊</div>
-          </div>
-
+        <div>
+          <div class="name">陈亭伊</div>
           <div class="headline">
             <a href="tel:18723250436">18723250436</a> ｜
             <a href="mailto:cty007376@gmail.com">cty007376@gmail.com</a> ｜
             女 ｜ 籍贯：重庆
           </div>
-
           <div class="headline">
             工作经验：2年 ｜ 求职意向：运营、策划、增长 ｜ 期望城市：北京/唐山
           </div>
 
-          <div class="chips">
+          <div class="chips" aria-label="tags">
             <span class="chip">运营</span>
             <span class="chip">策划</span>
             <span class="chip">增长</span>
+            <span class="chip">北京/唐山</span>
           </div>
         </div>
 
-        <div class="contact">
+        <!-- 右侧快捷按钮 -->
+        <div class="contact" aria-label="quick actions">
           <div class="pill">
             <strong>📞 电话</strong>
             <span><a href="tel:18723250436">点击拨号</a></span>
+            <span class="cta">tel</span>
           </div>
           <div class="pill">
             <strong>✉️ 邮箱</strong>
             <span><a href="mailto:cty007376@gmail.com">点击发送</a></span>
+            <span class="cta">mail</span>
           </div>
           <div class="pill">
-            <strong>🧾 打印</strong>
-            <span>可直接打印为 PDF</span>
+            <strong>🧾 一页式简历</strong>
+            <span>支持打印成 PDF</span>
+            <span class="cta">print</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 教育经历 -->
-    <section class="card hoverable" id="edu" data-section>
-      <div class="sectionTitle">
-        <div class="bar"></div>
-        <h2>教育经历</h2>
-      </div>
+    <!-- 浮动导航（有动效，方便面试官快速跳转） -->
+    <nav class="dock" aria-label="sections">
+      <a href="#edu">🎓 教育经历</a>
+      <a href="#intern">🏢 实习经历</a>
+      <a href="#proj">✨ 项目经历</a>
+      <a href="#top">⬆︎ 顶部</a>
+    </nav>
 
-      <div class="entry" data-entry>
-        <div class="row">
-          <div class="left">中央民族大学「985A类双一流院校」</div>
-          <div class="mid">本科｜网络与新媒体</div>
-          <div class="right">2023-2027</div>
+    <div class="sections">
+
+      <!-- 教育经历（不放最后 ✅） -->
+      <section class="card" id="edu">
+        <div class="sectionTitle">
+          <h2>教育经历</h2>
+          <div class="line"></div>
         </div>
-        <div class="subline">CET-4、CRT-6、国家人才英语中级、普通话二甲</div>
-      </div>
-    </section>
 
-    <!-- 实习经历 -->
-    <section class="card hoverable" id="intern" data-section>
-      <div class="sectionTitle">
-        <div class="bar"></div>
-        <h2>实习经历</h2>
-      </div>
-
-      <div class="entry" data-entry>
-        <div class="row">
-          <div class="left">北京梧桐花开科技有限公司</div>
-          <div class="mid">新媒体运营及策划</div>
-          <div class="right">2025.09-2026.01</div>
+        <div class="entry">
+          <div class="row">
+            <div class="left">中央民族大学「985A类双一流院校」</div>
+            <div class="mid">本科｜网络与新媒体</div>
+            <div class="right">2023-2027</div>
+          </div>
+          <div class="subline">CET-4、CRT-6、国家人才英语中级、普通话二甲</div>
         </div>
-        <ul class="bullets">
-          <li class="bullet">流量策划：热榜制作独立完成全流程任务；优化热榜逻辑，提升内容精准度，助力流量分发效率提升。</li>
-          <li class="bullet">数据统计分析：完成近 <span class="kpi" data-kpi="30">30</span> 位财经博主数据全维度统计，输出覆盖产出、传播数据的分析报告；拆解教育、情感等 3 个领域抖音博主爆款逻辑，总结选题方向与内容结构，为增长选题提供参考。</li>
-          <li class="bullet">优化：参与完善支付宝电鳗平台分发 SOP，补充关键操作节点；整理任务错误统计表，为降低运营失误、提升效率提供数据支撑。</li>
-        </ul>
-      </div>
+      </section>
 
-      <div class="entry" data-entry>
-        <div class="row">
-          <div class="left">北京蒸汽记忆公司</div>
-          <div class="mid">产品运营</div>
-          <div class="right">2025.06-2025.09</div>
+      <!-- 实习经历 -->
+      <section class="card" id="intern">
+        <div class="sectionTitle">
+          <h2>实习经历</h2>
+          <div class="line"></div>
         </div>
-        <ul class="bullets">
-          <li class="bullet">审核生态监控：牵头完成 Slack、Zendesk 等 <span class="kpi" data-kpi="12">12</span> 个第三方平台 OAuth 接入，建立“资料模板 + 审核清单 + 回调校验”SOP，实现平均审核时长 6 天、一次通过率 <span class="kpi" data-kpi="85%">85%</span>。</li>
-          <li class="bullet">增长与产品优化：上线新手引导及激活任务，补齐权限/令牌过期提示、错误态回写等细节；搭建注册、首日激活、7/30 日留存等指标口径，每两周复盘渠道与版本表现，5 个月内实现 MAU+<span class="kpi" data-kpi="20%">20%</span>、新增注册 +<span class="kpi" data-kpi="27%">27%</span>、首日激活率 <span class="kpi" data-kpi="38%">38%</span>、7 日留存 <span class="kpi" data-kpi="24%">24%</span>。</li>
-          <li class="bullet">GTM/对外：策划执行清华、北大等 6 场高校推介会，统筹讲稿、Demo 等物料，累计到场 <span class="kpi" data-kpi="1100+">1100+</span>、意向 <span class="kpi" data-kpi="420">420</span>、当场注册 <span class="kpi" data-kpi="230">230</span>；输出中英双语 ONE-PAGER、FAQ、集成白皮书，支撑 BD 外联与官网转化；对接海外开发者/伙伴 <span class="kpi" data-kpi="100+">100+</span> 场会议，促成 <span class="kpi" data-kpi="32">32</span> 家试用、<span class="kpi" data-kpi="10">10</span> 家 PoC、<span class="kpi" data-kpi="3">3</span> 家长期合作。</li>
-          <li class="bullet">招聘优化：（投递-筛选-约面-反馈），将面试周期压缩至 <span class="kpi" data-kpi="7">7</span> 天，沉淀面试题库与候选人标签规则。</li>
-        </ul>
-      </div>
 
-      <div class="entry" data-entry>
-        <div class="row">
-          <div class="left">奇迹创坛</div>
-          <div class="mid">人才调研</div>
-          <div class="right">2025.01-2025.05</div>
+        <div class="entry">
+          <div class="row">
+            <div class="left">北京梧桐花开科技有限公司</div>
+            <div class="mid">新媒体运营及策划</div>
+            <div class="right">2025.09-2026.01</div>
+          </div>
+          <ul class="bullets">
+            <li>流量策划：热榜制作独立完成全流程任务；优化热榜逻辑，提升内容精准度，助力流量分发效率提升。</li>
+            <li>数据统计分析：完成近 <span class="kpi">30</span> 位财经博主数据全维度统计，输出覆盖产出、传播数据的分析报告；拆解教育、情感等 3 个领域抖音博主爆款逻辑，总结选题方向与内容结构，为增长选题提供参考。</li>
+            <li>优化：参与完善支付宝电鳗平台分发 SOP，补充关键操作节点；整理任务错误统计表，为降低运营失误、提升效率提供数据支撑。</li>
+          </ul>
         </div>
-        <ul class="bullets">
-          <li class="bullet">数据标注、数据清洗：收集与结构化 <span class="kpi" data-kpi="20000+">20,000+</span> 条目标人才数据，完成去重与字段统一；系统化上传 100% 完成。</li>
-          <li class="bullet">建联人才：基于需求画像，锁定并触达 <span class="kpi" data-kpi="500+">500+</span> 高潜候选人，达成合作 <span class="kpi" data-kpi="50+">50+</span>；沉淀“人才 mapping”SOP，支持半导体与海外医疗等跨部门项目。</li>
-          <li class="bullet">负责薪资与标签的可视化标注与抽样校验，保障数据标注一致性 ≥<span class="kpi" data-kpi="97%">97%</span>、抽检错误率 ≤<span class="kpi" data-kpi="3%">3%</span>。</li>
-        </ul>
-      </div>
 
-      <div class="entry" data-entry style="margin-bottom:0;">
-        <div class="row">
-          <div class="left">爱阅-英语教培机构</div>
-          <div class="mid">英语教师</div>
-          <div class="right">2024.09-2024.12</div>
+        <div class="entry">
+          <div class="row">
+            <div class="left">北京蒸汽记忆公司</div>
+            <div class="mid">产品运营</div>
+            <div class="right">2025.06-2025.09</div>
+          </div>
+          <ul class="bullets">
+            <li>审核生态监控：牵头完成 Slack、Zendesk 等 <span class="kpi">12</span> 个第三方平台 OAuth 接入，建立“资料模板 + 审核清单 + 回调校验”SOP，实现平均审核时长 6 天、一次通过率 85%。</li>
+            <li>增长与产品优化：上线新手引导及激活任务，补齐权限/令牌过期提示、错误态回写等细节；搭建注册、首日激活、7/30 日留存等指标口径，每两周复盘渠道与版本表现，5 个月内实现 MAU+20%、新增注册 +27%、首日激活率 38%、7 日留存 24%。</li>
+            <li>GTM/对外：策划执行清华、北大等 6 场高校推介会，统筹讲稿、Demo 等物料，累计到场 1100+、意向 420、当场注册 230；输出中英双语 ONE-PAGER、FAQ、集成白皮书，支撑 BD 外联与官网转化；对接海外开发者/伙伴 100+ 场会议，促成 32 家试用、10 家 PoC、3 家长期合作。</li>
+            <li>招聘优化：（投递-筛选-约面-反馈），将面试周期压缩至 7 天，沉淀面试题库与候选人标签规则。</li>
+          </ul>
         </div>
-        <ul class="bullets">
-          <li class="bullet">负责6-16岁学生英语阶段性课程教学，设计趣味课堂活动（如情景对话、英文游戏）；策划并执行“万圣节英语派对”活动参与人数超 <span class="kpi" data-kpi="200+">200+</span> 人，获家长满意度 <span class="kpi" data-kpi="100%">100%</span>。</li>
-          <li class="bullet">所带班级学员英语成绩平均提升 <span class="kpi" data-kpi="25%">25%</span>，续课率达 <span class="kpi" data-kpi="90%">90%</span>。</li>
-        </ul>
-      </div>
-    </section>
 
-    <!-- 项目经历 -->
-    <section class="card hoverable" id="proj" data-section>
-      <div class="sectionTitle">
-        <div class="bar"></div>
-        <h2>项目经历</h2>
-      </div>
-
-      <div class="entry" data-entry>
-        <div class="row">
-          <div class="left">中国移动创客比赛-颜探网页开发二等奖</div>
-          <div class="mid">网页开发</div>
-          <div class="right">2024.10-2024.12</div>
+        <div class="entry">
+          <div class="row">
+            <div class="left">奇迹创坛</div>
+            <div class="mid">人才调研</div>
+            <div class="right">2025.01-2025.05</div>
+          </div>
+          <ul class="bullets">
+            <li>数据标注、数据清洗：收集与结构化 <span class="kpi">20,000+</span> 条目标人才数据，完成去重与字段统一；系统化上传 100% 完成。</li>
+            <li>建联人才：基于需求画像，锁定并触达 500+ 高潜候选人，达成合作 50+；沉淀“人才 mapping”SOP，支持半导体与海外医疗等跨部门项目。</li>
+            <li>负责薪资与标签的可视化标注与抽样校验，保障数据标注一致性 ≥97%、抽检错误率 ≤3%。</li>
+          </ul>
         </div>
-      </div>
 
-      <div class="entry" data-entry>
-        <div class="row">
-          <div class="left">NCDA未来设计师大赛北京市三等奖</div>
-          <div class="mid">摄影 / 后期剪辑 / 脚本构思</div>
-          <div class="right">2025.03-至今</div>
+        <div class="entry" style="margin-bottom:0;">
+          <div class="row">
+            <div class="left">爱阅-英语教培机构</div>
+            <div class="mid">英语教师</div>
+            <div class="right">2024.09-2024.12</div>
+          </div>
+          <ul class="bullets">
+            <li>负责 6-16 岁学生英语阶段性课程教学，设计趣味课堂活动（如情景对话、英文游戏）；策划并执行“万圣节英语派对”活动参与人数超 200 人，获家长满意度 100%。</li>
+            <li>所带班级学员英语成绩平均提升 25%，续课率达 90%。</li>
+          </ul>
         </div>
-      </div>
+      </section>
 
-      <div class="entry" data-entry style="margin-bottom:0;">
-        <div class="row">
-          <div class="left">新媒体视域下少数民族非遗文化的创新传播与立法传承——以回族民谣文化为例</div>
-          <div class="mid">队长</div>
-          <div class="right">2023.10-2024.05</div>
+      <!-- 项目经历 -->
+      <section class="card" id="proj">
+        <div class="sectionTitle">
+          <h2>项目经历</h2>
+          <div class="line"></div>
         </div>
-        <div class="subline">
-          从内容策划到制作，数据分析到运营推广我都有了一定的理论基础和扎实的实践经验。项目编号：QMRP2023110913
+
+        <div class="entry">
+          <div class="row">
+            <div class="left">中国移动创客比赛-颜探网页开发二等奖</div>
+            <div class="mid">网页开发</div>
+            <div class="right">2024.10-2024.12</div>
+          </div>
         </div>
-      </div>
 
-      <div style="margin-top:14px; color: var(--muted); font-size:13px; text-align:center;">
-        © 2026 陈亭伊｜运营 / 策划 / 增长｜期望城市：北京/唐山
-      </div>
-    </section>
+        <div class="entry">
+          <div class="row">
+            <div class="left">NCDA未来设计师大赛北京市三等奖</div>
+            <div class="mid">摄影 / 后期剪辑 / 脚本构思</div>
+            <div class="right">2025.03-至今</div>
+          </div>
+        </div>
 
+        <div class="entry" style="margin-bottom:0;">
+          <div class="row">
+            <div class="left">新媒体视域下少数民族非遗文化的创新传播与立法传承——以回族民谣文化为例</div>
+            <div class="mid">队长</div>
+            <div class="right">2023.10-2024.05</div>
+          </div>
+          <div class="subline">
+            从内容策划到制作，数据分析到运营推广我都有了一定的理论基础和扎实的实践经验。项目编号：QMRP2023110913
+          </div>
+        </div>
+
+        <div class="footer">© 2026 陈亭伊｜运营 / 策划 / 增长｜期望城市：北京/唐山</div>
+      </section>
+
+    </div>
   </div>
 
-  <!-- 右下角返回顶部 -->
-  <button class="toTop" id="toTop" aria-label="返回顶部">↑</button>
-
   <script>
-    /* =========================================================
-      动效核心 JS
-      1) 懒加载：IntersectionObserver 触发卡片入场 (scale/opacity)
-      2) 条目逐个出现：entry 延迟 0.1s（相邻板块 0.1s）+ 内部逐行 li 0.05s
-      3) KPI 计数：进入视口后 1s 从0到目标 + pulse 3次
-      4) 导航：滚动>0 背景变白0.9；并高亮当前 section
-      5) 返回顶部：滚动>300 显示 + 呼吸
-      6) 姓名彩蛋：点击一次触发 pop + ripple
-    ========================================================= */
-
-    const EASE = 'cubic-bezier(0.25, 0.1, 0.25, 1)';
-
-    // ---------- 1) 懒加载：卡片进入视口 20% ----------
-    const cards = Array.from(document.querySelectorAll('.card[data-section], #edu, #intern, #proj'));
-    const allCards = Array.from(document.querySelectorAll('.card'));
-
-    const ioCard = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(!entry.isIntersecting) return;
-
-        const card = entry.target;
-        // 卡片入场
-        card.classList.add('in');
-
-        // 2) 卡片内条目 entry：按卡片顺序 + 每个 entry 0.1s 延迟
-        const entriesInCard = Array.from(card.querySelectorAll('[data-entry]'));
-        entriesInCard.forEach((el, i)=>{
-          el.style.animationDelay = `${0.10 * i}s`;
-          el.classList.add('in');
-
-          // 2.1) 列表项逐行延迟 0.05s：淡入+translateX
-          const lis = Array.from(el.querySelectorAll('li.bullet'));
-          lis.forEach((li, j)=>{
-            li.style.animationDelay = `${0.12 + 0.05 * j}s`;
-            li.classList.add('in');
-          });
-        });
-
-        // 4) KPI 计数：只在第一次进入时跑
-        const kpis = Array.from(card.querySelectorAll('.kpi[data-kpi]'));
-        kpis.forEach(k => startCountOnce(k));
-
-        ioCard.unobserve(card);
+    // 进入视野渐显动效（高级感：轻微上浮+淡入）
+    const cards = document.querySelectorAll('.card');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('reveal');
+          io.unobserve(e.target);
+        }
       });
-    }, { threshold: 0.2 });
+    }, { threshold: 0.12 });
+    cards.forEach(c=>io.observe(c));
 
-    // 所有卡片按视觉流（上→下）延迟入场：相邻板块 0.1s
-    allCards.forEach((c, idx)=>{
-      c.style.animationDelay = `${0.10 * idx}s`;
-      ioCard.observe(c);
-    });
+    // 顶部导航高亮当前区域
+    const links = Array.from(document.querySelectorAll('.dock a'));
+    const map = new Map(links.map(a => [a.getAttribute('href').replace('#',''), a]));
 
-    // ---------- 3) KPI 计数 + 脉冲 ----------
-    function parseTarget(raw){
-      // 支持：30 / 85% / 1100+ / 20,000+ / 97% / 3% 等
-      const str = String(raw).trim();
-      const hasPct = str.includes('%');
-      const hasPlus = str.includes('+');
-
-      // 去掉逗号、+、% 得到纯数字
-      const num = parseFloat(str.replace(/,/g,'').replace('%','').replace('+',''));
-      return { num: isNaN(num) ? 0 : num, hasPct, hasPlus, raw: str };
-    }
-
-    function formatValue(v, meta){
-      // 只做最基础格式：整数/带%/带+
-      const n = meta.num >= 1000 ? Math.round(v).toString() : (meta.hasPct ? v.toFixed(0) : Math.round(v).toString());
-      let out = n;
-      if(meta.raw.includes(',')){
-        // 如果原始包含逗号（如20,000+），保留千分位
-        const int = Math.round(v);
-        out = int.toLocaleString('en-US');
-      }
-      if(meta.hasPct) out += '%';
-      if(meta.hasPlus) out += '+';
-      return out;
-    }
-
-    function startCountOnce(el){
-      if(el.dataset.counted === '1') return;
-      el.dataset.counted = '1';
-
-      const meta = parseTarget(el.dataset.kpi || el.textContent);
-      const duration = 1000; // 1s
-      const start = performance.now();
-
-      // 脉冲 3 次
-      el.classList.add('pulse');
-
-      function tick(now){
-        const t = Math.min(1, (now - start) / duration);
-        // ease-in-out（简洁，不引入第三方）
-        const eased = t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;
-
-        const value = meta.num * eased;
-        el.textContent = formatValue(value, meta);
-
-        if(t < 1) requestAnimationFrame(tick);
-        else el.textContent = meta.raw; // 结束后还原为原始展示（避免格式偏差）
-      }
-      requestAnimationFrame(tick);
-    }
-
-    // ---------- 4) 导航：滚动背景 + 高亮 ----------
-    const nav = document.getElementById('nav');
-    const navLinks = Array.from(nav.querySelectorAll('a[data-nav]'));
-    const toTop = document.getElementById('toTop');
-
-    function onScroll(){
-      const y = window.scrollY || document.documentElement.scrollTop;
-      nav.classList.toggle('scrolled', y > 0);
-
-      // 返回顶部按钮
-      if(y > 300) toTop.classList.add('show');
-      else toTop.classList.remove('show');
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-
-    // section 高亮（IntersectionObserver）
     const sections = ['edu','intern','proj'].map(id => document.getElementById(id));
-    const ioSec = new IntersectionObserver((entries)=>{
+    const io2 = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{
         if(!e.isIntersecting) return;
+        links.forEach(a=>a.classList.remove('active'));
         const id = e.target.id;
-        navLinks.forEach(a => a.classList.remove('active'));
-        const hit = navLinks.find(a => a.getAttribute('href') === `#${id}`);
+        const hit = map.get(id);
         if(hit) hit.classList.add('active');
       });
-    }, { threshold: 0.55 });
-    sections.forEach(s => ioSec.observe(s));
-
-    // ---------- 返回顶部 ----------
-    toTop.addEventListener('click', ()=>{
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // ---------- 6) 姓名彩蛋：点击一次 pop + ripple ----------
-    const nameBtn = document.getElementById('nameBtn');
-    let eggUsed = false;
-
-    nameBtn.addEventListener('click', (ev)=>{
-      if(eggUsed) return;
-      eggUsed = true;
-
-      // pop 动效
-      nameBtn.classList.remove('pop'); // 保险
-      void nameBtn.offsetWidth;
-      nameBtn.classList.add('pop');
-
-      // ripple
-      const rect = nameBtn.getBoundingClientRect();
-      const ripple = document.createElement('span');
-      ripple.className = 'ripple';
-      ripple.style.left = `${rect.left + rect.width/2 + window.scrollX}px`;
-      ripple.style.top  = `${rect.top + rect.height/2 + window.scrollY}px`;
-      ripple.style.width = `${Math.max(rect.width, rect.height) * 2.2}px`;
-      ripple.style.height = ripple.style.width;
-      document.body.appendChild(ripple);
-
-      ripple.addEventListener('animationend', ()=> ripple.remove(), { once:true });
-    });
+    }, { threshold: 0.45 });
+    sections.forEach(s=>io2.observe(s));
   </script>
 </body>
 </html>
